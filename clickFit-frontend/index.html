@@ -319,7 +319,7 @@
             </div>
 			<div class="row m-0">
 				<div class="col-md-12 p-0 pt-4 pb-4">
-					<form class="bg-light p-4 m-auto" id="form">
+					<form class="bg-light p-4 m-auto" id="form" accept=".jpg , .png">
 						<div class="row">
 							
 							<div class="col-md-12">
@@ -440,40 +440,40 @@
         
 
 
-        document.getElementById('form').onsubmit = async function(event){
+        document.getElementById('form').addEventListener('submit' , async function(event){
 
             var myHeaders = new Headers();
             myHeaders.append("Content-Type", "application/json");
             myHeaders.append("Access-Control-Allow-Origin" , "*");
             event.preventDefault() // prevent form from posting without JS
 
-            
-                let formData = new FormData(); 
-                formData.append("fileupload", fileupload.files[0]);
-                console.log(formData)
-                    await fetch('http://localhost:4000/upload', {
-                    method: "POST", 
-                    mode: 'no-cors',
-                    body: JSON.stringify(formData),
+            console.log(document.getElementById("fileupload").files[0])
+            let formData = new FormData();
+            formData.append("filename", document.getElementById("fileupload").files[0]);
+                
+                // await fetch('http://localhost:4000/upload', {
+                //     method: "POST",
+                //     // mode: 'no-cors',
+                //     body: formData
                     
                     
-                }).then(res=>console.log(res)); 
+                // }).then(res => res.json())
+                // .then(data => console.log(data))
+                // .catch (err => console.log(err))
             
-            // var xhttp = new XMLHttpRequest(); // create new AJAX request
+            var xhttp = new XMLHttpRequest(); // create new AJAX request
 
-            // xhttp.onreadystatechange = function() {
-            // if (this.status == 200) { // sucess from server
-            //     console.log(this.responseText)
-            // }else{ // errors occured
-            //     console.log('Upload failed ') ;
-            // }
-            // }
+            xhttp.onreadystatechange = function() {
+            if (this.status == 200) { // sucess from server
+                console.log(this.responseText)
+            }else{ // errors occured
+                console.log('Upload failed ') ;
+            }
+            }
 
-            // xhttp.open("POST", "http://localhost:5000/upload")
-            // var formData = new FormData()
-            // formData.append('avatar', document.getElementById('avatar').files[0]) // since inputs allow multi files submission, therefore files are in array
-            // xhttp.send(formData)
-    }
+            xhttp.open("POST", "http://localhost:4000/upload", true)
+            xhttp.send(formData)
+    })
 
 
 

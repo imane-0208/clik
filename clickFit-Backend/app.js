@@ -3,6 +3,11 @@ const app = express();
 const multer = require('multer');
 const path = require('path');
 const bodyParser = require('body-parser')
+const cors = require('cors');
+
+app.use(cors({
+    origin: '*'
+}));
 
 
 const storage = multer.diskStorage({ 
@@ -22,7 +27,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use('/image', express.static('upload/images'))
-app.post("/upload", upload.single('image'), (req, res) => {s
+app.post("/upload", upload.single('image'), (req, res) => {
     
     console.log(req.file)
     res.json({ 
